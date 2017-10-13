@@ -1,0 +1,26 @@
+#!usr/bin/python
+#prompt for user input
+print "What is the length of you rectangle"
+#accept user input and assign it to length
+length = input(">  ")
+#prompt for user input
+print "What is the width of the rectangle"
+#accept user input and assign it to width
+width = input(">  ")
+#calculate perimeter
+perimeter = length * width
+#calculate area
+area = (2 * length) + (2 *width)
+#prompt for user input
+print "Would you like the perimeter, the area or both?"
+#accept user input and assign it to usrCommand
+usrCommand = raw_input(">  ")
+#if user input was perimeter then...
+if usrCommand == "perimeter":
+#print the calculation of perimeter
+        print "your perimeter is %r" % perimeter
+#else if user input was area then...
+elif usrCommand == "area":
+#print the calculation of area
+        print "your area is %r" % area
+#else...
