@@ -1,0 +1,177 @@
+#!usr/bin/python
+from sys import exit
+from random import *
+from sys import argv
+script, filename = argv
+creator = 'Flynn_'
+playerInventory = []
+playerHP = 60
+guard1HP = 14
+guard2HP = 14
+bossHP = 30
+cadavar_pile = ['HealthPot','GateKeys','GoldPouch','Bread']
+#SIT
+
+def scenario1():
+        print "you sit there pondering whether the biomass around you is one entity..."
+        print "As the day passes the ship gets hit feirce sending the gaurd flying..."
+        print "you don't know what hit the ship but you do know it woke up the biomass..."
+        print "Do you make a break for it and 'charge' the gate or 'stay' seated, again?"
+        usrAction2 = raw_input('>  ')
+        if usrAction2 == 'charge':
+                scenario1a()
+        elif usrAction2 == 'stay':
+                scenario1b()
+        #starve
+#attack
+def scenario2():
+        print "You decide to attack the guard, but you realize you dont have a weapon..."
+        print "do you decide to 'sit' back down and wait or go in an 'attack' anyway?"
+        usrAction5 = raw_input('>  ')
+        if usrAction5 == 'attack':
+                engagement1()
+        elif usrAction5 == 'sit':
+                scenario1b()
+        else:
+                while (userAction5 != 'attack' & userAction5 != 'sit'):
+                        starvation()
+#charge
+def scenario1a():
+        if guard1HP == 14:
+                print "you run head first into the gate. It doesn't budge"
+                print "The thing behind you punches the gate open"
+                print "you leave the cell and notice that you're a tall blue lizard"
+                print "you see the guard incapacitated at the end of the hall..."
+                print "there apears to be another guard tending to his wounds"
+                print "do you decide to 'attack' or 'sneak' by?"
+        else:
+                print "you leave the cell and notice that you're a tall blue lizard"
+                print "you see the guard incapacitated at the end of the hall..."
+                print "another guard apears to be tending to his wounds"
+                print "do you decide to 'attack' or 'sneak' by?"
+        userAction3 = raw_input('>  ')
+        if userAction3 == 'attack':
+                engagement2()
+        elif userAction3 == 'sneak':
+                engagement2()
+        else:
+                while (userAction3 != 'attack' & userAction3 != 'sneak'):
+                        starvation()
+
+#fight
+def engagement1():
+        print "you try and choke the guard up agasinst the gate"
+        print "he gasps for air, and tries to break free of your grasp"
+        turns = randint(1,4)
+        i = 0
+        global guard1HP
+        while (i <= turns + 1):
+                damage = randint(1,6)
+                guard1HP = guard1HP - damage
+                print "The guard has taken %d damage" % damage
+                i += 1
+        if guard1HP <= 0:
+                print "the guard falls to the floor"
+                print "do you wish to loot the guard? 'yes' or 'no'?"
+                usrAction7 = raw_input('>  ')
+                print "suddenly, something massive hits the ship sending the guard flying"
+                scenario1a()
+        else:
+                print "The guard breaks away from your grasp and calls for help"
+                engagement3()
+
+def engagement2():
+        print "the guard notices you and reaches for his signal horn"
+        global guard2HP
+        global playerHP
+        while (playerHP >= 0 | guard2HP >= 0):
+                print "do you 'wait',' attack', or 'heal'?"
+                engagementAction = raw_input('>  ')
+                if engagementAction == 'attack':
+                        swipedmg = randint(1,8) + randint(1,8)
+                        print "you dealt %d damage to the guard" % swipedmg
+                        speardmg = randint(1,6)
+                        print "the guard attacks you for %d damage" % speardmg
+                        playerHP = playerHP - speardmg
+                        guard2HP = guard2HP - swipedmg
+                elif engagementAction == 'wait':
+                        speardmg = randint(1,6)
+                        print "the guard attacks you for %d damage" % speardmg
+                        playerHP = playerHP - speardmg
+                #elif engagementAction == 'heal':
+        if guard2HP <= 0:
+                scenario4()
+        if playerHP <= 0:
+                exit('how pitiful you died to a guard')
+
+def engagement3():
+        print "from down the hall the other guard comes"
+        print "they unlock the gate just as something massive hits the ship"
+        print "they go flying down the hall"
+        guard1HP = 0
+        scenario1a()
+
+#aft engagements
+def scenario4():
+        print "the corpses are piled up at the end of the hall..."
+        print "do you decide to loot them? 'yes' or 'no'?"
+	userAction8 = raw_input('>  ')
+        if userAction8 == 'no':
+                starvation("do you mean 'yes?'")
+        if userAction8 == 'yes':
+                print "you find %r" % cadavar_pile
+                #print "What do you take?"
+                #greed == raw_input('>  ')
+                for x in enumerate(cadavar_pile):
+                        print "what do you take?"
+                        x = raw_input('>  ')
+                        if x in cadavar_pile:
+                                cadavar_pile.remove (x)
+                                playerInventory.append (x)
+                        print "%r are now in the pile" % cadavar_pile
+                end()
+#SIT again
+def scenario1b():
+        print "you sit there and start to starve"
+        starvation()
+        print "now do you charge the door? 'yes' or 'no'?"
+        userAction4 = raw_input(">  ")
+        if userAction4 == 'yes':
+                scenario1a()
+        elif userAction4 == 'no':
+                scenario1b()
+#damage
+def starvation():
+        global playerHP
+        damage = randint(1,4)
+        playerHP -= damage
+        if playerHP <= 0:
+                print "you starved to death, how about you actually play the game"
+                exit(0)
+#end
+def end():
+        print "after looting you hear something comming down the stairs"
+        print "TO BE CONTINUED, saving game"
+        txt = open(filename, 'w')
+        txt.write('player Health is %d \n' % playerHP)
+        txt.write('player inventory %r \n' % playerInventory)
+        txt.write('game crated by %s \n' % creator)
+        txt.close
+
+#start
+def start():
+        print"You and wake from your slumber to the rocking of a ship..."
+        print"You realize that you are stuck in a prison cell with others..."
+        print"for the life of you you cant tell how many others there are..."
+        print"You decide to get up to the staunch realization that you are 9ft tall..."
+        print"there is a prison gaurd satanding with his back to the cell..."
+        print"Do you 'attack', or 'sit' there?"
+        usrAction1 = raw_input('>  ')
+        if usrAction1 == "sit":
+                scenario1()
+        elif usrAction1 == "attack":
+                scenario2()
+        else:
+                while(usrAction1 != "sit" & usrAction1 != "attack"):
+                        starvation()
+start()
